@@ -46,5 +46,6 @@ Sprint 0 Week1 Les3 (13 December 2026 )
 
 
 Sprint 0 Week1 Les1 (9 December 2026 )
+
 SPRINT 0 (Getting a grip)
 Doel: Je richt de randvoorwaarden voor het project in: een repository in GitHub om in te werken, een manier om jouw persoonlijke website te publiceren, een projectboard, kwaliteitsafspraken et cetera.

@@ -1,0 +1,149 @@
+/***********************************/
+/* CODE VOOR DE FONTS - @FONT-FACE */
+/***********************************/
+
+/* jouw code hier */
+/* alle fonts (@font-face's) zet je bovenaan je css */
+/* kijk even naar oefening 1 hoe je @font-face gebruikt */
+
+@font-face {
+    font-family:"montserrat ";
+    src: url(../fonts/Montserrat-Thin.ttf);
+    font: weight 100px;
+    font-style: normal;
+    font-display:fallback;
+}
+
+@font-face{
+  font-family:SairaCondensed;
+  src:url(../fonts/SairaCondensed-Bold.ttf) 700; 
+  font-weight: 700;
+	font-style: normal;
+	font-display: fallback;
+}
+
+
+/*******************************/
+/* CODE VOOR HET EERSTE BLOKJE */
+/*******************************/
+
+/* hiermee selecteer je de eerste li */
+li:nth-of-type(1) {
+  /* h2 in het midden van de li */
+  /* hoef je nu nog niet te snappen - mag wel ;-) */
+  /* li = liste elemani
+   nth-of-type(1) = ilk li elemanini secer
+   h2 = ilk li icindeki h2 basligini secer */
+  display:grid;
+  place-items:center;
+	
+	/* jouw code hier */
+ 
+	background-color: rgb(0, 24, 54);
+}
+
+
+
+/* hiermee selecteer je de h2 in de eerste li */
+li:nth-of-type(1) h2 {
+  /* de h2 wordt zo smal als het langste woord */
+	/* daardoor staat elk woord op een nieuwe regel */
+	width:min-content;
+	/* en dan gecentreerd */
+	text-align:center;
+	
+	/* jouw code hier */
+
+  font-family:"Montserrat", sans-serif;
+  font-size: 3em;
+  font-weight: 100;
+  color: hsl(0 0% 100%);
+  line-height:1em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 0.1em cyan,
+    0 0 0.2em cyan,
+    0 0 0.3em cyan,
+    0 0 0.4em cyan;
+
+
+}
+
+
+
+
+
+/*******************************/
+/* CODE VOOR HET TWEEDE BLOKJE */
+/*******************************/
+
+li:nth-of-type(2) {
+	/* h2 in het midden van de li */
+  display:grid;
+  place-items:center;
+
+	/* jouw code hier */
+    background-color:rgb(230, 127, 138);
+	
+} 
+
+
+
+li:nth-of-type(2) h2 {
+  width:min-content;
+	text-align:center;
+	
+	/* jouw code hier */
+  transform:skewY(-10deg);
+  
+  font-family:"SairaCondensed", sans-serif;
+	font-size:3.5em;
+  line-height:1em;
+  letter-spacing:1em; /* letters net wat verder uit elkaar te zetten */
+  text-transform:uppercase;
+	text-align:center;
+	text-shadow:
+  1em 1em 0 rgb(0 0 0 / .5);
+	color:white;
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+/*************************************/
+/* BASIS - HOEF JE NIETS MEE TE DOEN */
+/*************************************/
+
+@layer basis {
+  *, *::after, *::before {
+    box-sizing:border-box;  
+  }
+  
+  header, main {
+		width:min(100%, 30rem);
+    margin-inline:auto;
+  }
+
+  ul {
+    margin:0;
+    padding:0;
+    list-style-type:"";
+    display:grid;
+    gap:var(--template-size-whitespace);
+  }
+
+  li {
+    height:clamp(14em, 80vw, 18em);
+    background-color:white;
+		border-radius:1em;
+		color:black;
+  } 
+}

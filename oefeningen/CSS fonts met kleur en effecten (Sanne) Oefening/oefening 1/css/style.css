@@ -1,0 +1,97 @@
+/**************/
+/* @font-face */
+/**************/
+
+/* voor deze oefening maak je een font-family met @font-face */
+/* - de de family de naam expletus */
+/* - de font-bestanden die je nodig hebt staan in de map fonts */
+/* - je hebt twee varianten nodig: 400/regular en 700/bold */
+
+@font-face {
+  /* 400/regular */
+  font-family: "Expletus Sans";
+  src: url("../fonts/ExpletusSans-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+	/* 700/bold */
+    font-family: "Expletus Sans";
+  src: url("../fonts/ExpletusSans-Bold.ttf");
+  font-weight: 700;
+}
+
+
+
+
+
+/*************/
+/* JOUW CODE */
+/*************/
+
+/* hiermee selecteer je de main */
+/* nb. html elementen erven de font-family van hun parent */
+/* dus als je de main een font-family geeft erven alle kinderen van de main */
+
+main {
+	
+  font-family: "Expletus Sans", sans-serif;
+}
+
+
+
+/* hiermee selecteer je de p in de main */
+/* Paragraflarin satir yuksekligini ayarlar */
+  /* 1.5 = yazi boyutunun 1,5 kati */
+main p {
+ 
+    line-height: 1.5;
+}
+
+
+
+/* hiermee selecteer je de eerste letter van de p */
+main p::first-letter {
+
+  font-size: 3em;
+    /* Ilk harfi 3 kat buyutur */
+  font-weight: 700;
+    /* Ilk harfi kalin yapar */
+  color: #f09;
+    /* Ilk harfi pembe yapar */
+	
+}
+
+
+
+
+
+
+
+
+
+
+/*************************************/
+/* BASIS - HOEF JE NIETS MEE TE DOEN */
+/*************************************/
+
+@layer basis {
+  /* Simpele CSS Remedy */
+  /* naar een idee van Jen Simmons */
+  /* github.com/jensimmons/cssremedy */
+  *, *::after, *::before {
+    box-sizing:border-box;  
+  }
+  
+  header,
+  main {
+		width:min(100%, 30rem);
+    margin-inline:auto;
+  }
+
+  main {
+    background:white;
+    color:black;
+    padding:var(--template-size-whitespace);
+  }
+}

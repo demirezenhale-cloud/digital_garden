@@ -3,59 +3,642 @@
 **************************/
 
 @font-face {
-  font-family: "Comic Relief";
-  src: url(../fonts/ComicRelief-Regular.woff2);
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Shantell Sans";
+  src: url(../fonts/ShantellSans.woff2) format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
 }
+
+@font-face {
+  font-family: "Nunito";
+  src: url(../fonts/Nunito.woff2) format("woff2");
+  font-weight: 200 1000;
+  font-display: swap;
+}
+
+
+
+
+
 
 /**************************
 * MARK: Custom properties
+
+    Het ontwerppalet van mijn website. Hier definieer ik waarden als variabelen (ze beginnen met --), zoals kleuren, lettertypes, ruimtes en ronde
+    hoeken.Ik gebruik ze verderop in de CSS met var().Waarom? Zo staat alles op één plek: als ik één waarde aanpas, verandert het overal op de site.
+    Met light-dark(licht, donker) heeft elke kleur een lichteen een donkere versie, zodat de site een licht en een donker thema kan hebben. 
+    Sitemin tasarım paleti. Burada renkler, fontlar, boşluklar ve yuvarlak köşeler gibi değerleri değişken olarak tanımlıyorum (-- ile başlarlar).
+    Onları CSS'in aşağısında var() ile kullanıyorum.Neden? Böylece her şey tek bir yerde duruyor: bir değeri değiştirdiğimde sitenin her yerinde 
+    değişiyor. light-dark(açık, koyu) ile her rengin açık ve koyu bir hâli var; böylece sitenin açık ve koyu bir teması olabiliyor.
 **************************/
 
+/* Kleuren met light-dark(licht, donker) – methode uit de les docent Vasilis .
+   (Renkler light-dark(açık, koyu) ile – dersteki yöntem.) */
 html {
+  /* Dit deel zegt dat de site licht én donker ondersteunt.
+     (Site açık ve koyu temayı desteklediğini söylüyor bu kısım ) */
   color-scheme: light dark;
+
+  /* Drie kleuren voor de lucht, van boven naar beneden. Gökyüzü için yukarıdan aşağı üç renk. 
+    Licht = zonsondergang (roze → perzik → crème), donker = avond (paars → pruim → nachtblauw).*/
+
+  --sky-top: light-dark(#f4aec2, #2a1b3d);
+  --sky-middle: light-dark(#f7b98f, #4a2545);
+  --sky-bottom: light-dark(#fad5ae, #1b1f3a);
+
+  /* Kleurverloop - gradient van boven naar beneden: een zonsondergang.(Yukarıdan aşağı renk geçişi: bir gün batımı.) */
+  background: linear-gradient(
+    to bottom,
+    var(--sky-top),
+    var(--sky-middle),
+    var(--sky-bottom)
+  );
+
+  /* Kleur van alle teksten. (Bütün yazıların rengi.) */
+  --text-color: light-dark(#2b1d24, #fbeee6);
+
+  /* Achtergrond en rand van de acht stops. (Sekiz durağın arka planı ve kenarlığı.) */
+  /* Achtergrond van de kaarten: wit in het lichte thema, donkerblauw (navy) in het donkere thema.
+     (Kartların arka planı: açık temada beyaz, koyu temada lacivert.) */
+
+  --stop-background: light-dark(#ffffff, #0b1a35);
+  --stop-border: light-dark(#2b1d24, #fbeee6);
+
+  /* Geel voor de START-knop; in beide thema's hetzelfde. (START düğmesi için sarı; iki temada da aynı.) */
+  --accent: #f2c230;
+  --accent-text: #2b1d24;
+
+  /* Kleur van de iconen. (İkonların rengi.) */
+  --icon-color: light-dark(#2b1d24, #fbeee6);
+
+  /* Kleuren van de 3D-nummers op de kaarten.
+     --number-color = de voorkant van het nummer (geel, zoals de START-knop).
+     --number-side = de zijkant/schaduw die het nummer dik en 3D laat lijken (donkerder geel).
+     In beide thema's hetzelfde, daarom zonder light-dark().
+     (Kartlardaki 3D numaraların renkleri.
+     --number-color = numaranın ön yüzü (sarı, START düğmesi gibi).
+     --number-side = numarayı kalın ve 3D gösteren yan yüz/gölge (daha koyu sarı).
+     İki temada da aynı, bu yüzden light-dark() olmadan.) */
+  --number-color: #f2c230;
+  --number-side: #c99a10;
 }
 
+/* Is "light" aangevinkt? Dan licht thema. Is "dark" aangevinkt? Dan donker thema. Methode uit de les docent Vasilis .
+   (Light seçiliyse açık tema, dark seçiliyse koyu tema. Dersteki yöntem.) */
+
+html:has([value="light"]:checked) {
+  color-scheme: light;
+}
+
+html:has([value="dark"]:checked) {
+  color-scheme: dark;
+}
+
+
+
+
+
+
 /**************************
-* MARK: Algemene Styling
+* MARK: Algemene Styling : 🇳
+Dit is de basis van de hele website. Hier staat de styling die voor de hele pagina geldt, of voor elementen die op meer plekken voorkomen,
+zoals body, h1, h2, h3 en img. Het gaat om lettertypes, tekstkleur, achtergrond, regelafstand en de grootte van afbeeldingen.
+Waarom? Wat ik hier één keer schrijf, erven alle elementen binnenin. Zo hoef ik niets te herhalen en ziet de site er overal hetzelfde uit. 
+Daarna volgen de specifieke onderdelen (header, footer en main), die alleen hun verschillen beschrijven.
+
+(Burası bütün sitenin temeli. Burada bütün sayfa için ya da birçok yerde geçen elemanlar için geçerli stiller var: body, h1, h2, h3 ve img 
+gibi. Bunlar fontlar, yazı rengi, arka plan, satır aralığı ve resimlerin boyutu.Neden? Burada bir kere yazdığım şeyi, içindeki bütün elemanlar
+miras alıyor. Böylece hiçbir şeyi tekrar etmiyorum ve site her yerde aynı görünüyor. Sonra sadece kendi farklarını anlatan özel bölümler geliyor:
+header, footer ve main.
 **************************/
 
 *,
+/* We zorgen dat hier padding en borders meetellen in de totale breedte.
+   (Padding ve kenarlıklar toplam genişliğe dahil edilir.) */
 *::after,
 *::before {
   box-sizing: border-box;
 }
 
+/* Afbeeldingen passen zich aan hun container aan.
+   (Görseller bulundukları alanın dışına taşmaz.) */
 img {
   max-width: 100%;
 }
 
 body {
-  font-family: "Comic Relief", system-ui;
+  /* Hier staan de algemene instellingen van de website.
+   (Burada web sitesinin genel ayarları bulunuyor.) */
+
+  /* Verwijdert de standaardruimte rondom de pagina.Zo begint de inhoud direct aan de rand.
+     (Sayfanın varsayılan dış boşluğunu kaldırır. Böylece içerik doğrudan kenardan başlar.) */
+  margin: 0;
+
+  /* Bepaalt het lettertype van de hele website.Andere lettertypes worden gebruikt als de eerste niet beschikbaar is.
+     (Tüm sitenin yazı tipini belirler.İlk font mevcut değilse diğerleri kullanılır.) */
+  font-family: "Nunito", sans-serif;
+
+  /* Haalt de achtergrondkleur uit de custom properties. Hierdoor kan de kleur veranderen bij light en dark mode.
+     (Arka plan rengini custom properties bölümünden alır. Böylece açık ve koyu temada renk değişebilir.) */
+  /* NL: Kleurverloop van boven naar beneden: een zonsondergang.
+     TR: Yukarıdan aşağı renk geçişi: bir gün batımı. */
+
+  background: linear-gradient(
+    to bottom,
+    var(--sky-top),
+    var(--sky-middle),
+    var(--sky-bottom)
+  );
+
+  /* Bepaalt de tekstkleur via een CSS-variabele.Hierdoor blijft de tekst leesbaar in beide thema's.
+     (Yazı rengini CSS değişkeniyle belirler.Böylece metin her iki temada da okunabilir kalır.) */
+  color: var(--text-color);
+
+  /* Bepaalt de afstand tussen de tekstregels.Dit maakt langere teksten makkelijker leesbaar.
+     (Satırlar arasındaki mesafeyi belirler.Uzun metinleri okumayı kolaylaştırır.) */
+  line-height: 1.5;
+
+  /* Zorgt ervoor dat de pagina minimaal zo hoog is als het scherm.
+     (Sayfanın en az ekran kadar yüksek olmasını sağlar.) */
+  min-height: 100vh;
+
+  /* NL: De pagina als grid: header, main en footer onder elkaar.
+         1fr = main krijgt alle overige ruimte, zo staat de footer altijd onderaan.
+     TR: Sayfa bir grid: header, main ve footer alt alta.
+         1fr = main kalan bütün yeri alır, böylece footer hep en altta durur. */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
+
+/* Titels in Shantell Sans 
+    (Başlıklar Shantell Sans ile) */
+
+h1,
+h2,
+h3 {
+  font-family: "Shantell Sans", cursive;
+}
+
+
+
+
+
 
 /**************************
 * MARK: Header
+ Bovenaan de pagina: thema-keuze (links), navigatie (rechts), titel en ondertitel (midden).
+ Sayfanın üstü: tema seçimi (sol), menü (sağ), başlık ve alt başlık (orta).
 **************************/
 
+/* NL: De header is een grid met 3 kolommen: thema-keuze | lege ruimte | navigatie.
+   TR: Header 3 kolonlu bir grid: tema seçimi | boşluk | menü. */
 header {
+  /* NL: Maakt van de header een onzichtbare tabel (regel: lay-outen met grid).
+     TR: Header'ı görünmez bir tabloya çevirir (kural: grid ile yerleşim). */
+  display: grid;
+
+  /* NL: auto = zo breed als de inhoud, 1fr = alle overige ruimte.
+         De middelste kolom duwt de thema-keuze naar links en de navigatie naar rechts.
+     TR: auto = içi kadar geniş, 1fr = kalan bütün boşluk.
+         Ortadaki kolon tema seçimini sola, menüyü sağa iter. */
+  grid-template-columns: auto 1fr auto;
+
+  /* NL: Ruimte tussen de rijen (in plaats van margin).
+     TR: Satırlar arasında boşluk (margin yerine). */
+  row-gap: 1rem;
+
+  /* NL: Ruimte binnenin, zodat niets tegen de rand van het scherm plakt.
+     TR: İçeride boşluk, hiçbir şey ekranın kenarına yapışmasın. */
+  padding: 2rem;
+
+  /* NL: Tekst in het midden. TR: Yazılar ortada. */
+  text-align: center;
 }
+
+/* NL: Thema-keuze links en alleen zo breed als de iconen.
+   TR: Tema seçimi solda ve sadece ikonlar kadar geniş. */
+header fieldset {
+  justify-self: start;
+}
+
+/* NL: Zon en maan: inline SVG (les "Light en dark iconen", Vasilis).
+       Dit is alleen het UITERLIJK van de iconen; het wisselen van thema staat bij de custom properties.
+   TR: Güneş ve ay: inline SVG ("Light en dark iconen" dersi).
+       Bu sadece ikonların GÖRÜNÜŞÜ; temanın değişmesi custom properties bölümünde. */
+header svg {
+  /* NL: Grootte van het icoon. TR: İkonun boyutu. */
+  width: 1.5em;
+  height: 1.5em;
+
+  /* NL: Geen vulling: dit zijn lijn-iconen. TR: Dolgu yok: bunlar çizgi ikonları. */
+  fill: none;
+
+  /* NL: Kleur van de lijnen uit een custom property; verandert mee met het thema.
+     TR: Çizgi rengi custom property'den; temayla birlikte değişir. */
+  stroke: var(--icon-color);
+
+  /* NL: Dikte en ronde uiteinden van de lijnen.
+     TR: Çizgilerin kalınlığı ve yuvarlak uçları. */
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* NL: Navigatie rechtsboven, in de derde kolom.
+   TR: Menü sağ üstte, üçüncü kolonda. */
+header nav {
+  grid-column: 3;
+}
+
+/* NL: Links naast elkaar (flexbox), met ruimte ertussen, zonder bolletjes.
+   TR: Linkler yan yana (flexbox), aralarında boşluk, noktasız. */
+header nav ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+
+  /* NL: Haalt de standaard inspringing van de browser weg.
+     TR: Tarayıcının varsayılan girintisini siler. */
+  padding: 0;
+}
+
+/* NL: Linkkleur past bij het thema, zonder onderstreping.
+   TR: Link rengi temaya uyar, alt çizgi yok. */
+header nav a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* NL: Bij muis erover: onderstreept, zodat je ziet dat je kunt klikken.
+   TR: Fare üstüne gelince altı çizili, tıklanabilir olduğu anlaşılsın. */
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* NL: Bij navigeren met het toetsenbord (Tab): gele rand.
+   TR: Klavyeyle (Tab) gezinirken sarı çerçeve. */
+header nav a:focus-visible {
+  outline: 0.15em solid var(--accent);
+  outline-offset: 0.2em;
+}
+
+/* Deze drie elementen staan over de hele breedte van de header, in het midden:
+       - h1 = de grote titel
+       - p = de zin eronder
+       - header > a = de START-knop
+       Het teken > betekent "direct erin". Zo kies ik alleen de START-link,
+       en niet de links Home en Learning Log (die zitten dieper, in de nav).
+    Bu üç eleman header'ın bütün genişliğini kaplıyor ve ortada duruyor:
+       - h1 = büyük başlık
+       - p = altındaki cümle
+       - header > a = START düğmesi
+       > işareti "doğrudan içindeki" demek. Böylece sadece START linkini seçiyorum,
+       Home ve Learning Log linklerini değil (onlar daha içeride, nav'ın içinde). */
+header h1,
+header p {
+  grid-column: 1 / -1;
+}
+
+/* NL: De START-knop: geel, met ronde hoeken, in het midden.
+   TR: START düğmesi: sarı, yuvarlak köşeli, ortada. */
+header > a {
+  /*  Van de eerste tot de laatste kolom (-1 = de laatste).
+          İlk kolondan son kolona kadar (-1 = sonuncusu). */
+  grid-column: 1 / -1;
+
+  /* NL: Alleen zo breed als de tekst, in het midden.
+     TR: Sadece yazı kadar geniş, ortada. */
+  justify-self: center;
+
+  /* NL: Ruimte binnenin de knop. TR: Düğmenin içinde boşluk. */
+  padding: 0.75rem 3rem;
+
+  /* Grotere letters, zodat de knop meer opvalt.
+     (Daha büyük harfler, düğme daha çok dikkat çeksin.) */
+  font-size: 1.25rem;
+
+  /* NL: Gele achtergrond en donkere tekst (uit de custom properties).
+     TR: Sarı arka plan ve koyu yazı (custom properties'ten). */
+  background-color: var(--accent);
+  color: var(--accent-text);
+
+  /* NL: Ronde hoeken. TR: Yuvarlak köşeler. */
+  border-radius: 0.75rem;
+
+  /* NL: Dikke letters, geen onderstreping.
+     TR: Kalın harfler, alt çizgi yok. */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* NL: Muis erover: onderstreept. TR: Fare üstündeyken: altı çizili. */
+header > a:hover {
+  text-decoration: underline;
+}
+
+/* NL: Met het toetsenbord (Tab): rand eromheen. TR: Klavyeyle (Tab): etrafında çerçeve. */
+header > a:focus-visible {
+  outline: 0.15em solid var(--accent-text);
+  outline-offset: 0.2em;
+}
+
+/* NL: Tijdens het klikken: iets kleiner, alsof je hem indrukt.
+   TR: Tıklarken: biraz küçülür, basılıyormuş gibi. */
+header > a:active {
+  scale: 0.95;
+}
+
+/* NL: Grootte van de hoofdtitel: twee keer de normale tekst (hiërarchie).
+   TR: Ana başlığın boyutu: normal yazının iki katı (hiyerarşi). */
+header h1 {
+  font-size: 2rem;
+}
+
+
+
+
+
 
 /**************************
 * MARK: Footer
 **************************/
-
+/* Zorgt voor ruimte onderaan de pagina.
+   (Sayfanın alt kısmında boşluk oluşturur.) */
 footer {
+  padding: 1rem;
 }
+
+
+
+
+
 
 /**************************
 * MARK: Main
 **************************/
 
+/* NL: Main = het middelste deel van de pagina, met de acht stops.
+       Het staat in het midden en wordt niet te breed op een groot scherm.
+   TR: Main = sayfanın orta kısmı, sekiz durak burada.
+       Ortada duruyor ve büyük ekranda çok geniş olmuyor. */
 main {
+  /* NL: Hoe breed is main?
+         Op een telefoon: bijna het hele scherm (met een beetje ruimte aan de zijkanten).
+         Op een groot scherm: maximaal 60rem, anders wordt het te breed om te lezen.
+     TR: Main ne kadar geniş?
+         Telefonda: neredeyse bütün ekran (kenarlarda biraz boşluk kalıyor).
+         Büyük ekranda: en fazla 60rem, yoksa okumak için fazla geniş olur. */
+  width: min(100% - 2rem, 60rem);
+
+  /* NL: Zet main in het midden van de pagina.
+     TR: Main'i sayfanın ortasına koyar. */
+  justify-self: center;
 }
 
+
+
+
+
 /**************************
-* MARK: Section ...
+* MARK: Section - Habit map : /*  De sectie met de habit map. Hierin staan de titel en de acht stops.
+  Habit map bölümü. İçinde başlık ve sekiz durak var. 
 **************************/
+
+/*  De sectie met de habit map. Hierin staan de titel en de acht stops.
+    Habit map bölümü. İçinde başlık ve sekiz durak var. */
+main section {
+  /*  Maakt van de sectie een flexbox. Zo kan ik later elke stop
+         apart naar links of naar rechts zetten (de zigzag).
+     Bölümü bir flexbox yapar. Böylece sonra her durağı
+         tek tek sola ya da sağa koyabilirim (zikzak). */
+  display: flex;
+
+  /*  Alles onder elkaar zetten, niet naast elkaar.
+      Her şeyi yan yana değil, alt alta dizer. */
+  flex-direction: column;
+
+  /*  Ruimte tussen de titel en de stops, en tussen de stops onderling. Ik gebruik gap in plaats van margin.
+      Başlık ile duraklar arasında ve duraklar arasında boşluk.
+         Margin yerine gap kullanıyorum. */
+  gap: 2rem;
+
+  /* Start een teller met de naam "stop" op 0. Het is alsof ik zeg: "begin te tellen, we staan nu op nul".
+     (Adı "stop" olan bir sayaç başlatır ve 0'a ayarlar. Sanki "saymaya başla, şu an sıfırdayız" diyorum.) */
+  counter-reset: stop;
+}
+/* De titel "Explore the Habit Map" is onzichtbaar op het scherm,
+   maar schermlezers lezen hem wel voor. De regel zegt: een section heeft een heading.
+   Zo houd ik de heading in de HTML, maar zie je hem niet.
+   (Başlık "Explore the Habit Map" ekranda görünmüyor, ama ekran okuyucular
+   onu okuyor. Kural diyor ki: section'ın bir başlığı olmalı.
+   Böylece başlık HTML'de kalıyor, ama ekranda görünmüyor.)
+   Bron/Kaynak: https://www.a11yproject.com/posts/how-to-hide-content/ */
+main h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Eén stop = één kaart. Elke stop (article) krijgt een achtergrond, een rand en ronde hoeken, zodat je duidelijk ziet dat het een aparte kaart is
+   waar je op kunt klikken.
+   (Bir durak = bir kart. Her durak (article) bir arka plan, bir çerçeve ve yuvarlak köşeler alıyor. Böylece bunun ayrı, tıklanabilir bir kart olduğu
+   açıkça görülüyor.) */
+main article {
+  /* De achtergrondkleur van de kaart. De kleur komt uit de custom properties: wit in het lichte thema en donkerblauw in het donkere thema.Zo verandert 
+     de kaart automatisch mee als je op de zon of de maan klikt.
+     (Kartın arka plan rengi. Renk custom properties'ten geliyor: açık temada beyaz, koyu temada mor. Böylece güneşe ya da aya tıkladığında kart da
+     kendiliğinden değişiyor.) */
+  background-color: var(--stop-background);
+
+  /* De rand om de kaart. Deze regel bestaat uit drie delen:
+     - 0.15rem = hoe dik de lijn is
+     - solid = een doorgetrokken lijn (dashed zou een stippellijn zijn)
+     - var(--stop-border) = de kleur, ook uit de custom properties
+     (Kartın etrafındaki çerçeve. Bu satır üç parçadan oluşuyor:
+     - 0.15rem = çizginin kalınlığı
+     - solid = düz çizgi (dashed yazsaydım kesikli olurdu)
+     - var(--stop-border) = rengi, o da custom properties'ten) */
+  border: 0.15rem solid var(--stop-border);
+
+  /* Ronde hoeken. Hoe groter het getal, hoe ronder de hoeken.
+     (Yuvarlak köşeler. Sayı büyüdükçe köşeler daha yuvarlak olur.) */
+  border-radius: 0.75rem;
+
+  /* Ruimte binnenin de kaart, tussen de rand en de titel. Zonder padding plakt de tekst tegen de rand. Dit is geen positioneren: de kaart 
+     verplaatst niet, er komt alleen ruimte binnenin.
+     (Kartın içinde, çerçeve ile başlık arasında boşluk. Padding olmasaydı yazı kenara yapışırdı. Bu bir konumlandırma değil: kart yerinden
+     oynamıyor, sadece içinde boşluk oluşuyor.) */
+  padding: 1.5rem;
+
+  /* De kaart is niet zo breed als het hele scherm, maar 85%. Zo blijft er ruimte over en kan de kaart naar links of naar rechts schuiven.
+     Als de kaart 100% breed was, zou je de zigzag niet zien.
+     (Kart bütün ekran kadar değil, %85 genişliğinde. Böylece yanında boşluk kalıyor ve kart sola ya da sağa kayabiliyor. Kart %100 genişliğinde 
+     olsaydızikzak görünmezdi.) */
+  width: 85%;
+
+  /* Bij elke kaart telt de teller één op: 1, 2, 3 … 8.
+     (Her kartta sayaç bir artar: 1, 2, 3 … 8.) */
+  counter-increment: stop;
+}
+
+/* Het grote nummer boven de titel van elke kaart.
+   ::before maakt een extra stukje vóór de inhoud van de h3, alleen met CSS.
+   content: counter(stop) zet daar het nummer van de teller in.
+   display: block zet het nummer op een eigen regel, boven de titel.
+   (Her kartın başlığının üstündeki büyük numara.
+   ::before, h3'ün içeriğinden önce sadece CSS ile ekstra bir parça oluşturur.
+   content: counter(stop) oraya sayacın numarasını koyar.
+   display: block numarayı başlığın üstünde kendi satırına koyar.) */
+
+main h3::before {
+  content: counter(stop);
+  display: block;
+
+  /* Groot en extra dik, zodat het nummer opvalt.
+     (Büyük ve ekstra kalın, numara dikkat çeksin.) */
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1;
+
+  /* De voorkant van het nummer: geel.
+     (Numaranın ön yüzü: sarı.) */
+  color: var(--number-color);
+
+  /* Het 3D-effect: vier schaduwen op elkaar.
+     Elke schaduw schuift een klein stukje naar rechts en naar beneden (0.03em, 0.06em …).
+     Samen lijken ze de dikke zijkant van het nummer, zoals de zijkant van een stapel boeken.
+     De laatste schaduw is donker, als een lijn langs de rand.
+     Ik gebruik em, zodat de schaduw meegroeit als het nummer groter wordt.
+     (3D etkisi: üst üste dört gölge.
+     Her gölge biraz sağa ve aşağı kayıyor (0.03em, 0.06em …).
+     Birlikte numaranın kalın yan yüzü gibi görünüyorlar, bir kitap destesinin yanı gibi.
+     Son gölge koyu, kenar boyunca bir çizgi gibi.
+     em kullanıyorum, böylece numara büyüyünce gölge de onunla büyüyor.) */
+  text-shadow:
+    0.03em 0.03em 0 var(--number-side),
+    0.06em 0.06em 0 var(--number-side),
+    0.09em 0.09em 0 var(--number-side),
+    0.12em 0.12em 0 var(--accent-text);
+}
+
+/* ZIGZAG – de oneven stops (1, 3, 5, 7) staan links.
+
+   Wat is :nth-of-type()?
+   Het is een selector die TELT. nth = "de hoeveelste", of-type = "van hetzelfde soort".
+   Dus: "de hoeveelste is dit, als ik alleen de elementen van hetzelfde soort tel?"
+   In mijn sectie staat eerst een h2 en daarna acht articles.
+   main article:nth-of-type(odd) telt alleen de articles en slaat de h2 over.
+   odd = oneven, dus hij kiest article 1, 3, 5 en 7.
+
+   Waarom niet :nth-child()?
+   nth-child telt ALLE elementen, dus ook de h2. Dan zou de h2 nummer 1 zijn
+   en de eerste stop nummer 2. De telling schuift één op en de zigzag gaat
+   precies verkeerd om: stop 1 rechts, stop 2 links.
+   Vergelijking: in een klas met een docent en acht leerlingen tel ik alleen de
+   leerlingen (nth-of-type), niet de docent erbij (nth-child).
+
+   align-self: flex-start zet de kaart aan het begin van de flex-kolom, dus links.
+
+   (ZİKZAK – tek sayılı duraklar (1, 3, 5, 7) solda.
+
+   :nth-of-type() nedir?
+   SAYAN bir seçici. nth = "kaçıncı", of-type = "aynı türden olanlar arasında".
+   Yani: "sadece aynı türden elemanları sayarsam bu kaçıncı?"
+   Bölümümde önce bir h2, sonra sekiz article var.
+   main article:nth-of-type(odd) sadece article'ları sayıyor, h2'yi atlıyor.
+   odd = tek, yani 1, 3, 5 ve 7. article'ı seçiyor.
+
+   Neden :nth-child() değil?
+   nth-child BÜTÜN elemanları sayar, h2'yi de. O zaman h2 1 numara, ilk durak
+   2 numara olurdu. Sayım bir kayar ve zikzak tam ters olur: 1. durak sağda,
+   2. durak solda.
+   Benzetme: bir öğretmen ve sekiz öğrencinin olduğu bir sınıfta sadece
+   öğrencileri sayıyorum (nth-of-type), öğretmeni de saymıyorum (nth-child).
+
+   align-self: flex-start kartı flex sütununun başına, yani sola koyuyor.)
+
+   Bron/Kaynak: https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-of-type */
+main article:nth-of-type(odd) {
+  align-self: flex-start;
+}
+
+/* ZIGZAG – de even stops (2, 4, 6, 8) staan rechts.
+   even = even, dus :nth-of-type(even) kiest article 2, 4, 6 en 8
+   (de h2 telt weer niet mee).
+   align-self: flex-end zet de kaart aan het einde van de flex-kolom, dus rechts.
+   (ZİKZAK – çift sayılı duraklar (2, 4, 6, 8) sağda.
+   even = çift, yani :nth-of-type(even) 2, 4, 6 ve 8. article'ı seçiyor
+   (h2 yine sayılmıyor).
+   align-self: flex-end kartı flex sütununun sonuna, yani sağa koyuyor.) */
+main article:nth-of-type(even) {
+  align-self: flex-end;
+}
+
+
+
+
+
+/**************************
+* MARK: Grote schermen : Alles hierboven is voor een telefoon. Dit deel is alleen voor een groot scherm (vanaf 48em, ongeveer een tablet of laptop).
+    Ik schrijf hier niet alles opnieuw, maar alleen wat anders moet: de kaarten komen in een grid met 12 kolommen, in een zigzag.
+    Kleuren, lettertypes en de stijl van de kaarten komen gewoon van boven.
+    (Yukarıdaki her şey telefon için. Bu bölüm sadece büyük ekran için 48em'den itibaren, yaklaşık tablet ya da laptop).
+    Burada her şeyi yeniden yazmıyorum, sadece farklı olması gerekenleri:
+    kartlar 12 kolonlu bir grid'e, zikzak şeklinde yerleşiyor. Renkler, fontlar ve kartların görünüşü yukarıdan aynen geliyor.)
+**************************/
+
+/* min-width: 48em = "als het scherm minstens 48em breed is".
+   Dit is mobile first: eerst de code voor een klein scherm,
+   daarna alleen de verschillen voor een groot scherm.
+   (min-width: 48em = "ekran en az 48em genişse".
+   Bu mobile first: önce küçük ekran için kod,
+   sonra büyük ekran için sadece farklar.) */
+@media (min-width: 48em) {
+    /* Op een groot scherm wordt de section een grid met 12 even brede kolommen.
+     Dit is het meest gebruikte grid op het web, omdat 12 deelbaar is door
+     2, 3, 4 en 6. Op papier koos ik eerst 6 kolommen, maar in de code werden
+     de kaarten dan te breed voor de zigzag. Met 12 smallere kolommen kan ik
+     preciezer kiezen. Op een telefoon blijft de section een flex-kolom.
+     (Büyük ekranda section, 12 eşit kolonu olan bir grid'e dönüşüyor.
+     Bu webde en çok kullanılan grid, çünkü 12 sayısı 2'ye, 3'e, 4'e ve 6'ya
+     bölünüyor. Kâğıtta önce 6 kolon seçmiştim, ama kodda kartlar zikzak için
+     fazla geniş oldu. 12 ince kolonla daha hassas seçim yapabiliyorum.
+     Telefonda section flex kolon olarak kalıyor.) */
+  main section {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  /* In het grid bepaalt de plek in de kolommen hoe breed een kaart is,
+     niet meer de breedte in procenten. Met "auto" vult de kaart precies
+     de kolommen die ik hieronder kies. De 85% van de telefoonversie
+     geldt hier dus niet meer.
+     (Grid'de kartın genişliğini artık yüzde değil, kapladığı kolonlar
+     belirliyor. "auto" ile kart, aşağıda seçtiğim kolonları tam dolduruyor.
+     Yani telefon versiyonundaki %85 burada artık geçerli değil.) */
+  main article {
+    width: auto;
+  }
+
+    /* Oneven kaarten (1, 3, 5, 7) staan links: van lijn 1 tot lijn 8.
+     Even kaarten (2, 4, 6, 8) staan rechts: van lijn 6 tot lijn 13.
+     Ze delen de kolommen tussen lijn 6 en 8. Daardoor passen twee kaarten
+     nooit naast elkaar op één rij, en krijgt elke kaart een eigen rij.
+     Zo ontstaat de zigzag, net als het pad in mijn schets.
+     (Tek numaralı kartlar solda: 1. çizgiden 8. çizgiye kadar.
+     Çift numaralı kartlar sağda: 6. çizgiden 13. çizgiye kadar.
+     6 ile 8 arasındaki kolonları paylaşıyorlar. Bu yüzden iki kart hiçbir
+     zaman aynı satıra yan yana sığmıyor ve her kart kendi satırına iniyor.
+     Böylece çizimimdeki yol gibi zikzak oluşuyor.) */
+  main article:nth-of-type(odd) {
+    grid-column: 1 / 8;
+  }
+
+  main article:nth-of-type(even) {
+    grid-column: 6 / 13;
+  }
+
+}
